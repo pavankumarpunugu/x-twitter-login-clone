@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Security - X{% endblock %}
+
+{% block content %}
+<div class="container-lg py-4">
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="sidebar">
+                <h5 class="fw-bold mb-3">Security</h5>
+                <nav class="nav flex-column">
+                    <a class="nav-link active" href="{{ url_for('security.overview') }}">
+                        <i class="fas fa-shield-alt"></i> Overview
+                    </a>
+                    <a class="nav-link" href="{{ url_for('security.password') }}">
+                        <i class="fas fa-key"></i> Password
+                    </a>
+                    <a class="nav-link" href="{{ url_for('security.two_fa') }}">
+                        <i class="fas fa-lock"></i> Two-Factor Auth
+                    </a>
+                    <a class="nav-link" href="{{ url_for('security.login_activity') }}">
+                        <i class="fas fa-history"></i> Login Activity
+                    </a>
+                </nav>
+            </div>
+        </div>
+        
+        <div class="col-md-9">
+            <div class="page-header">
+                <h1>Security Center</h1>
+                <p>Monitor and manage your account security</p>
+            </div>
+            
+            <div class="security-status">
+                <h5 class="fw-bold mb-4">Security Status</h5>
+                
+                <div class="security-item">
+                    <div class="security-item-icon">
+                        {% if user.email_confirmed %}
+                            <i class="fas fa-check-circle" style="color: #17bf63;"></i>
+                        {% else %}
+                            <i class="fas fa-exclamation-circle" style="color: #ffad1f;"></i>
+                        {% endif %}
+                    </div>
+                    <div class="security-item-content">
+                        <div class="security-item-title">Email Verification</div>
+                        <div class="security-item-description">
+                            {% if user.email_confirmed %}
+                                Your email is verified
+                            {% else %}
+                                Please verify your email address
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="security-item">
+                    <div class="security-item-icon">
+                        {% if user.two_fa_enabled %}
+                            <i class="fas fa-check-circle" style="color: #17bf63;"></i>
+                        {% else %}
+                            <i class="fas fa-shield-alt" style="color: #999;"></i>
+                        {% endif %}
+                    </div>
+                    <div class="security-item-content">
+                        <div class="security-item-title">Two-Factor Authentication</div>
+                        <div class="security-item-description">
+                            {% if user.two_fa_enabled %}
+                                2FA is enabled
+                            {% else %}
+                                Enable 2FA to protect your account
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div>
+                        <a href="{{ url_for('security.two_fa') }}" class="btn btn-sm btn-outline-primary">
+                            {% if user.two_fa_enabled %}Manage{% else %}Enable{% endif %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold mb-4">Recent Activity</h5>
+                    <p class="text-muted">
+                        <i class="fas fa-info-circle"></i> Check your login activity to spot any unauthorized access
+                    </p>
+                    <a href="{{ url_for('security.login_activity') }}" class="btn btn-outline-primary">View Activity</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

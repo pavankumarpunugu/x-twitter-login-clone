@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Update Phone Number - X{% endblock %}
+
+{% block content %}
+<div class="container-lg py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="page-header">
+                <h1>Update Phone Number</h1>
+                <p>Add or update your phone number</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-body p-4">
+                    <form method="POST" novalidate>
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="mb-4">
+                            <label class="form-label">Phone Number</label>
+                            <small class="text-muted d-block mb-2">Format: +1234567890</small>
+                            {% if form.phone.errors %}
+                                {{ form.phone(class="form-control is-invalid") }}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.phone.errors %}{{ error }}<br>{% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.phone(class="form-control") }}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-grid">
+                            {{ form.submit(class="btn btn-primary") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

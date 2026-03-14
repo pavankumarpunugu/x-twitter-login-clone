@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Verify with Two-Factor Authentication - X{% endblock %}
+
+{% block content %}
+<div class="min-vh-100 d-flex align-items-center" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <h1 style="font-size: 3rem; font-weight: 800; color: #000;">𝕏</h1>
+                        </div>
+                        
+                        <h2 class="text-center mb-2" style="font-size: 1.5rem; font-weight: 800;">Two-Factor Authentication</h2>
+                        <p class="text-center text-muted mb-4">
+                            Enter the 6-digit code from your authenticator app
+                        </p>
+                        
+                        <form method="POST" novalidate>
+                            {{ form.hidden_tag() }}
+                            
+                            <div class="mb-4">
+                                {% if form.code.errors %}
+                                    {{ form.code(class="form-control form-control-lg is-invalid text-center fw-bold", inputmode="numeric", maxlength="6", autofocus=true) }}
+                                    <div class="invalid-feedback d-block text-center">
+                                        {% for error in form.code.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.code(class="form-control form-control-lg text-center fw-bold", placeholder="000000", inputmode="numeric", maxlength="6", autofocus=true) }}
+                                {% endif %}
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                {{ form.submit(class="btn btn-primary btn-lg") }}
+                            </div>
+                        </form>
+                        
+                        <div class="text-center mt-4">
+                            <p class="small text-muted mb-2">Don't have your phone? You can use a backup code instead.</p>
+                            <a href="#" class="text-decoration-none" style="color: #1d9bf0;" data-bs-toggle="modal" data-bs-target="#backupCodeModal">
+                                Use backup code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Backup Code Modal -->
+<div class="modal fade" id="backupCodeModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Enter Backup Code</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('auth.verify_2fa') }}" novalidate>
+                <div class="modal-body">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <div class="mb-3">
+                        <label class="form-label">Backup Code</label>
+                        <input type="text" name="backup_code" class="form-control" placeholder="8-character backup code" maxlength="8">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Verify</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

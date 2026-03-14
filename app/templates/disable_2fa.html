@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Disable Two-Factor Authentication - X{% endblock %}
+
+{% block content %}
+<div class="container-lg py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="page-header">
+                <h1>Disable 2FA</h1>
+                <p>Remove two-factor authentication from your account</p>
+            </div>
+            
+            <div class="alert alert-danger">
+                <strong>Warning!</strong> Disabling 2FA will reduce your account security. We recommend keeping it enabled.
+            </div>
+            
+            <div class="card">
+                <div class="card-body p-4">
+                    <form method="POST" novalidate>
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="mb-4">
+                            <label class="form-label">Enter your password to confirm:</label>
+                            {% if form.password.errors %}
+                                {{ form.password(class="form-control is-invalid", type="password") }}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.password.errors %}{{ error }}<br>{% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.password(class="form-control", type="password") }}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-grid">
+                            {{ form.submit(class="btn btn-danger") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

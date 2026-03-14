@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Backup Codes - X{% endblock %}
+
+{% block content %}
+<div class="container-lg py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="page-header">
+                <h1>Save Your Backup Codes</h1>
+                <p>Store these codes in a safe place</p>
+            </div>
+            
+            <div class="alert alert-warning">
+                <strong>Important!</strong> Save these backup codes in a secure location. You can use them to access your account if you lose your authenticator app.
+            </div>
+            
+            <div class="card">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-4">Backup Codes</h5>
+                    
+                    <div style="background-color: #f7f9fa; padding: 20px; border-radius: 8px; font-family: monospace; line-height: 2;">
+                        {% for code in backup_codes %}
+                            {{ code }}<br>
+                        {% endfor %}
+                    </div>
+                    
+                    <button class="btn btn-outline-primary mt-3 w-100" onclick="copyToClipboard()">
+                        <i class="fas fa-copy"></i> Copy All
+                    </button>
+                    
+                    <p class="text-muted mt-4">
+                        Each backup code can only be used once. When you use a code, it will be marked as used.
+                    </p>
+                    
+                    <div class="d-grid mt-4">
+                        <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary">
+                            Finish Setup
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyToClipboard() {
+    const codes = `{% for code in backup_codes %}{{ code }}\n{% endfor %}`;
+    navigator.clipboard.writeText(codes).then(() => {
+        alert('Backup codes copied to clipboard!');
+    });
+}
+</script>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}X - Twitter Clone{% endblock %}
+
+{% block content %}
+<div class="hero" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 80px 0; color: white;">
+    <div class="container-lg">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 style="font-size: 4rem; font-weight: 800; margin-bottom: 20px;">
+                    Welcome to X
+                </h1>
+                <p style="font-size: 1.25rem; margin-bottom: 30px; opacity: 0.9;">
+                    A modern social platform with enterprise-grade security. Create an account to get started.
+                </p>
+                <div>
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg me-3 mb-2">
+                        Get Started
+                    </a>
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-light btn-lg mb-2">
+                        Sign In
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6 text-center">
+                <h1 style="font-size: 8rem; font-weight: 800; opacity: 0.8;">𝕏</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-lg py-5">
+    <div class="row text-center mb-5">
+        <div class="col-md-4">
+            <div class="mb-3">
+                <i class="fas fa-lock" style="font-size: 2.5rem; color: #1d9bf0;"></i>
+            </div>
+            <h3 class="fw-bold mb-2">Secure Login</h3>
+            <p class="text-muted">
+                Industry-standard encryption and security protocols protect your account
+            </p>
+        </div>
+        <div class="col-md-4">
+            <div class="mb-3">
+                <i class="fas fa-shield-alt" style="font-size: 2.5rem; color: #1d9bf0;"></i>
+            </div>
+            <h3 class="fw-bold mb-2">Two-Factor Auth</h3>
+            <p class="text-muted">
+                Add an extra layer of protection with authentication apps or backup codes
+            </p>
+        </div>
+        <div class="col-md-4">
+            <div class="mb-3">
+                <i class="fas fa-mobile-alt" style="font-size: 2.5rem; color: #1d9bf0;"></i>
+            </div>
+            <h3 class="fw-bold mb-2">Multi-Device</h3>
+            <p class="text-muted">
+                Manage your sessions and trusted devices from anywhere
+            </p>
+        </div>
+    </div>
+    
+    <div class="card" style="background: #f7f9fa; border: none;">
+        <div class="card-body text-center py-5">
+            <h2 class="fw-bold mb-3">Ready to join?</h2>
+            <p class="text-muted mb-4">
+                Create an account today and experience a secure, modern social platform
+            </p>
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">
+                Create Account
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

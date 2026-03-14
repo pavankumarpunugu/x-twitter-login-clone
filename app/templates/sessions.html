@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Sessions - X{% endblock %}
+
+{% block content %}
+<div class="container-lg py-4">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="page-header">
+                <h1>Active Sessions</h1>
+                <p>Manage devices where you're signed in</p>
+            </div>
+            
+            {% if sessions %}
+            <div class="card">
+                <div class="card-body">
+                    {% for session in sessions %}
+                    <div class="device-info">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="fw-bold">{{ session.device_name }}</div>
+                                <small class="text-muted">
+                                    IP: {{ session.ip_address }} • 
+                                    Created: {{ session.created_at.strftime('%b %d, %Y') }} • 
+                                    Last active: {{ session.last_active.strftime('%H:%M') }}
+                                </small>
+                            </div>
+                            <form method="POST" action="{{ url_for('account.logout_session', session_id=session.id) }}" style="display: inline;">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Logout</button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                    <hr class="my-4">
+                    
+                    <form method="POST" action="{{ url_for('account.logout_all_devices') }}">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Log out from all other devices?')">
+                            Logout All Other Devices
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    <p class="text-muted">No active sessions</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

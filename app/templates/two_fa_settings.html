@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Two-Factor Authentication - X{% endblock %}
+
+{% block content %}
+<div class="container-lg py-4">
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="sidebar">
+                <h5 class="fw-bold mb-3">Security</h5>
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="{{ url_for('security.overview') }}">
+                        <i class="fas fa-shield-alt"></i> Overview
+                    </a>
+                    <a class="nav-link active" href="{{ url_for('security.two_fa') }}">
+                        <i class="fas fa-lock"></i> Two-Factor Auth
+                    </a>
+                </nav>
+            </div>
+        </div>
+        
+        <div class="col-md-9">
+            <div class="page-header">
+                <h1>Two-Factor Authentication</h1>
+                <p>Protect your account with an extra layer of security</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold mb-4">
+                        {% if user.two_fa_enabled %}
+                        <i class="fas fa-check-circle" style="color: #17bf63;"></i> 2FA Enabled
+                        {% else %}
+                        <i class="fas fa-shield-alt"></i> 2FA Disabled
+                        {% endif %}
+                    </h5>
+                    
+                    <p class="text-muted mb-4">
+                        Two-Factor Authentication (2FA) adds an extra layer of security to your account. Even if someone has your password, they can't access your account without the second authentication factor.
+                    </p>
+                    
+                    {% if user.two_fa_enabled %}
+                        <div class="alert alert-success mb-4">
+                            <i class="fas fa-check"></i> Your account is protected with 2FA
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <a href="{{ url_for('security.backup_codes') }}" class="btn btn-outline-primary w-100">
+                                    <i class="fas fa-key"></i> Backup Codes
+                                </a>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <a href="{{ url_for('security.disable_two_fa') }}" class="btn btn-outline-danger w-100">
+                                    <i class="fas fa-times"></i> Disable 2FA
+                                </a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning mb-4">
+                            <i class="fas fa-exclamation-triangle"></i> We recommend enabling 2FA to protect your account
+                        </div>
+                        
+                        <a href="{{ url_for('security.setup_two_fa') }}" class="btn btn-primary">
+                            <i class="fas fa-lock"></i> Enable 2FA
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

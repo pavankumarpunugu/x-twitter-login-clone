@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - X{% endblock %}
+
+{% block content %}
+<div class="container-lg py-4">
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="sidebar">
+                <h5 class="fw-bold mb-3">Account</h5>
+                <nav class="nav flex-column">
+                    <a class="nav-link active" href="{{ url_for('account.profile') }}">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                    <a class="nav-link" href="{{ url_for('account.change_password') }}">
+                        <i class="fas fa-key"></i> Password
+                    </a>
+                    <a class="nav-link" href="{{ url_for('account.update_phone') }}">
+                        <i class="fas fa-phone"></i> Phone
+                    </a>
+                    <a class="nav-link" href="{{ url_for('account.sessions') }}">
+                        <i class="fas fa-laptop"></i> Sessions
+                    </a>
+                </nav>
+            </div>
+        </div>
+        
+        <div class="col-md-9">
+            <div class="page-header">
+                <h1>Profile Settings</h1>
+                <p>Manage your account information and preferences</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold mb-4">Account Information</h5>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label text-muted">Username</label>
+                            <div class="fw-bold">@{{ user.username }}</div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label text-muted">Email</label>
+                            <div class="fw-bold">
+                                {{ user.email }}
+                                {% if user.email_confirmed %}
+                                <span class="badge bg-success ms-2">Verified</span>
+                                {% else %}
+                                <span class="badge bg-warning ms-2">Unverified</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label text-muted">Phone</label>
+                            <div class="fw-bold">
+                                {{ user.phone or 'Not set' }}
+                                {% if user.phone %}
+                                <a href="{{ url_for('account.update_phone') }}" class="ms-2 text-decoration-none" style="font-size: 0.9em; color: #1d9bf0;">Edit</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label text-muted">Account Created</label>
+                            <div class="fw-bold">{{ user.created_at.strftime('%B %d, %Y') }}</div>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <h5 class="fw-bold mb-4">Security</h5>
+                    
+                    <div class="security-item">
+                        <div class="security-item-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <div class="security-item-content">
+                            <div class="security-item-title">Password</div>
+                            <div class="security-item-description">
+                                Last changed: 
+                                {% if user.password_changed_at %}
+                                    {{ user.password_changed_at.strftime('%B %d, %Y') }}
+                                {% else %}
+                                    Not yet changed
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div>
+                            <a href="{{ url_for('account.change_password') }}" class="btn btn-sm btn-outline-primary">Change</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold mb-4">Data & Privacy</h5>
+                    
+                    <div class="security-item">
+                        <div class="security-item-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <div class="security-item-content">
+                            <div class="security-item-title">Download Your Data</div>
+                            <div class="security-item-description">
+                                Get a copy of your account data in JSON format
+                            </div>
+                        </div>
+                        <div>
+                            <a href="{{ url_for('account.download_data') }}" class="btn btn-sm btn-outline-primary">Download</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

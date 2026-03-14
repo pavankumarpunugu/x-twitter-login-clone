@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - X{% endblock %}
+
+{% block content %}
+<div class="container-lg py-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 mb-4">
+            <div class="sidebar">
+                <h5 class="fw-bold mb-3">Settings</h5>
+                <nav class="nav flex-column">
+                    <a class="nav-link active" href="{{ url_for('main.dashboard') }}">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                    <a class="nav-link" href="{{ url_for('account.profile') }}">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                    <a class="nav-link" href="{{ url_for('security.overview') }}">
+                        <i class="fas fa-shield-alt"></i> Security
+                    </a>
+                    <a class="nav-link" href="{{ url_for('account.sessions') }}">
+                        <i class="fas fa-laptop"></i> Sessions
+                    </a>
+                    <a class="nav-link" href="{{ url_for('account.settings') }}">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </nav>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col-md-9">
+            <div class="page-header">
+                <h1>Welcome, {{ current_user.username }}!</h1>
+                <p>Manage your account security and settings</p>
+            </div>
+            
+            <!-- Account Status Card -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold mb-4">
+                        <i class="fas fa-lock" style="color: #1d9bf0;"></i> Account Status
+                    </h5>
+                    
+                    <div class="security-item">
+                        <div class="security-item-icon">
+                            {% if current_user.email_confirmed %}
+                                <i class="fas fa-check-circle" style="color: #17bf63;"></i>
+                            {% else %}
+                                <i class="fas fa-exclamation-circle" style="color: #ffad1f;"></i>
+                            {% endif %}
+                        </div>
+                        <div class="security-item-content">
+                            <div class="security-item-title">Email Verification</div>
+                            <div class="security-item-description">
+                                {% if current_user.email_confirmed %}
+                                    Email verified on {{ current_user.created_at.strftime('%B %d, %Y') }}
+                                {% else %}
+                                    <strong class="text-warning">Please verify your email</strong>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="security-item">
+                        <div class="security-item-icon">
+                            {% if current_user.two_fa_enabled %}
+                                <i class="fas fa-check-circle" style="color: #17bf63;"></i>
+                            {% else %}
+                                <i class="fas fa-shield-alt" style="color: #999;"></i>
+                            {% endif %}
+                        </div>
+                        <div class="security-item-content">
+                            <div class="security-item-title">Two-Factor Authentication</div>
+                            <div class="security-item-description">
+                                {% if current_user.two_fa_enabled %}
+                                    2FA is enabled - Your account is protected with authentication app
+                                    {% if current_user.get_backup_codes_count() > 0 %}
+                                        ({{ current_user.get_backup_codes_count() }} backup codes remaining)
+                                    {% endif %}
+                                {% else %}
+                                    Add 2FA to protect your account with additional security
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div>
+                            <a href="{{ url_for('security.two_fa') }}" class="btn btn-sm btn-outline-primary">
+                                {% if current_user.two_fa_enabled %}Manage{% else %}Enable{% endif %}
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="security-item">
+                        <div class="security-item-icon">
+                            <i class="fas fa-key" style="color: #999;"></i>
+                        </div>
+                        <div class="security-item-content">
+                            <div class="security-item-title">Password</div>
+                            <div class="security-item-description">
+                                {% if days_since_password_change %}
+                                    Last changed {{ days_since_password_change }} days ago
+                                {% else %}
+                                    Password not yet changed
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div>
+                            <a href="{{ url_for('account.change_password') }}" class="btn btn-sm btn-outline-primary">
+                                Change
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Account Information Card -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold mb-4">
+                        <i class="fas fa-user" style="color: #1d9bf0;"></i> Account Information
+                    </h5>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="device-info">
+                                <small class="text-muted">USERNAME</small>
+                                <div class="fw-bold">@{{ current_user.username }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="device-info">
+                                <small class="text-muted">EMAIL</small>
+                                <div class="fw-bold">{{ current_user.email }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="device-info">
+                                <small class="text-muted">PHONE</small>
+                                <div class="fw-bold">{{ current_user.phone or 'Not set' }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="device-info">
+                                <small class="text-muted">ACCOUNT CREATED</small>
+                                <div class="fw-bold">{{ current_user.created_at.strftime('%B %d, %Y') }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Active Sessions Card -->
+            {% if sessions %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold mb-4">
+                        <i class="fas fa-laptop" style="color: #1d9bf0;"></i> Active Sessions ({{ sessions|length }})
+                    </h5>
+                    
+                    {% for session in sessions %}
+                    <div class="device-info">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="fw-bold">{{ session.device_name }}</div>
+                                <small class="text-muted">
+                                    IP: {{ session.ip_address }} • 
+                                    Last active: {{ session.last_active.strftime('%b %d, %Y at %H:%M') }}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                    <div class="mt-3">
+                        <a href="{{ url_for('account.sessions') }}" class="btn btn-sm btn-outline-primary">
+                            Manage Sessions
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

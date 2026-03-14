@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Deactivate Account - X{% endblock %}
+
+{% block content %}
+<div class="container-lg py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="page-header">
+                <h1>Deactivate Account</h1>
+                <p>Temporarily disable your account</p>
+            </div>
+            
+            <div class="alert alert-warning">
+                <strong>Warning!</strong> Deactivating your account will temporarily disable it. You can reactivate it anytime by logging in again.
+            </div>
+            
+            <div class="card">
+                <div class="card-body p-4">
+                    <form method="POST" novalidate>
+                        <div class="mb-4">
+                            <label class="form-label">Confirm with your password:</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure? You can reactivate later by logging in.')">
+                                Deactivate Account
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - X{% endblock %}
+
+{% block content %}
+<div class="container-lg py-4">
+    <div class="page-header">
+        <h1>Settings</h1>
+        <p>Manage your account settings</p>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="security-item">
+                <div class="security-item-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="security-item-content">
+                    <div class="security-item-title">Profile Settings</div>
+                    <div class="security-item-description">Manage your profile information</div>
+                </div>
+                <a href="{{ url_for('account.profile') }}" class="btn btn-sm btn-outline-primary">Go</a>
+            </div>
+            
+            <div class="security-item">
+                <div class="security-item-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="security-item-content">
+                    <div class="security-item-title">Security Settings</div>
+                    <div class="security-item-description">Manage 2FA and security</div>
+                </div>
+                <a href="{{ url_for('security.overview') }}" class="btn btn-sm btn-outline-primary">Go</a>
+            </div>
+            
+            <div class="security-item">
+                <div class="security-item-icon">
+                    <i class="fas fa-laptop"></i>
+                </div>
+                <div class="security-item-content">
+                    <div class="security-item-title">Sessions</div>
+                    <div class="security-item-description">Manage active sessions</div>
+                </div>
+                <a href="{{ url_for('account.sessions') }}" class="btn btn-sm btn-outline-primary">Go</a>
+            </div>
+            
+            <div class="security-item">
+                <div class="security-item-icon">
+                    <i class="fas fa-sign-out-alt" style="color: #f4245e;"></i>
+                </div>
+                <div class="security-item-content">
+                    <div class="security-item-title">Deactivate Account</div>
+                    <div class="security-item-description">Temporarily disable your account</div>
+                </div>
+                <a href="{{ url_for('account.deactivate') }}" class="btn btn-sm btn-outline-danger">Go</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

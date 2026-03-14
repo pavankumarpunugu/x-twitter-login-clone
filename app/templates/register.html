@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up - X{% endblock %}
+
+{% block content %}
+<div class="min-vh-100 d-flex align-items-center" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <h1 style="font-size: 3rem; font-weight: 800; color: #000;">𝕏</h1>
+                        </div>
+                        
+                        <h2 class="text-center mb-4" style="font-size: 2rem; font-weight: 800;">Create your account</h2>
+                        
+                        <form method="POST" novalidate>
+                            {{ form.hidden_tag() }}
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Username</label>
+                                {% if form.username.errors %}
+                                    {{ form.username(class="form-control is-invalid") }}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.username.errors %}
+                                            {{ error }}<br>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.username(class="form-control", placeholder="Choose a username") }}
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                {% if form.email.errors %}
+                                    {{ form.email(class="form-control is-invalid") }}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.email.errors %}
+                                            {{ error }}<br>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.email(class="form-control", placeholder="your@email.com") }}
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <div class="password-requirements small text-muted mb-2">
+                                    Must be at least 10 characters with uppercase, lowercase, number, and special character
+                                </div>
+                                {% if form.password.errors %}
+                                    {{ form.password(class="form-control is-invalid", type="password") }}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.password.errors %}
+                                            {{ error }}<br>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.password(class="form-control", placeholder="Create a strong password", type="password") }}
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Confirm Password</label>
+                                {% if form.confirm_password.errors %}
+                                    {{ form.confirm_password(class="form-control is-invalid", type="password") }}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.confirm_password.errors %}
+                                            {{ error }}<br>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.confirm_password(class="form-control", placeholder="Confirm password", type="password") }}
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    {% if form.agree_terms.errors %}
+                                        {{ form.agree_terms(class="form-check-input is-invalid") }}
+                                        <div class="invalid-feedback d-block">
+                                            {% for error in form.agree_terms.errors %}
+                                                {{ error }}<br>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.agree_terms(class="form-check-input") }}
+                                    {% endif %}
+                                    <label class="form-check-label">
+                                        I agree to the <a href="{{ url_for('main.terms') }}" target="_blank">Terms of Service</a>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid">
+                                {{ form.submit(class="btn btn-primary btn-lg", value="Create Account") }}
+                            </div>
+                        </form>
+                        
+                        <hr class="my-4">
+                        
+                        <p class="text-center mb-0">
+                            Already have an account?
+                            <a href="{{ url_for('auth.login') }}" class="fw-bold text-decoration-none" style="color: #1d9bf0;">
+                                Sign in
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

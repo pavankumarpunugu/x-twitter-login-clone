@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}About - X{% endblock %}
+
+{% block content %}
+<div class="container-lg py-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <h1 class="mb-4">About X - Twitter Clone</h1>
+            
+            <p class="lead">
+                X is a modern social platform built with enterprise-grade security and user privacy in mind.
+            </p>
+            
+            <h3 class="mt-5 mb-3">Our Mission</h3>
+            <p>
+                To provide a secure, user-friendly communication platform with industry-leading security features and transparent privacy practices.
+            </p>
+            
+            <h3 class="mt-5 mb-3">Security Features</h3>
+            <ul>
+                <li>Two-Factor Authentication (2FA)</li>
+                <li>Secure password hashing and storage</li>
+                <li>Session management and device tracking</li>
+                <li>Email verification and password recovery</li>
+                <li>Login activity monitoring</li>
+                <li>CSRF protection</li>
+                <li>Secure HTTP headers</li>
+            </ul>
+            
+            <h3 class="mt-5 mb-3">Technology</h3>
+            <p>
+                Built with Flask, PostgreSQL, and modern web security best practices.
+            </p>
+            
+            <p class="mt-5">
+                <a href="{{ url_for('main.index') }}" class="text-decoration-none" style="color: #1d9bf0;">← Back to Home</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

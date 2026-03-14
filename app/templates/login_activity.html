@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Login Activity - X{% endblock %}
+
+{% block content %}
+<div class="container-lg py-4">
+    <div class="page-header">
+        <h1>Login Activity</h1>
+        <p>View your recent login history and active sessions</p>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            {% if sessions %}
+                {% for session in sessions %}
+                <div class="device-info">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <div class="fw-bold">{{ session.device_name }}</div>
+                            <small class="text-muted">
+                                IP: {{ session.ip_address }}<br>
+                                Created: {{ session.created_at.strftime('%B %d, %Y at %H:%M:%S') }}<br>
+                                Last active: {{ session.last_active.strftime('%B %d, %Y at %H:%M:%S') }}
+                            </small>
+                        </div>
+                        {% if session.is_active %}
+                            <span class="badge bg-success">Active</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Inactive</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <p class="text-muted text-center">No login activity recorded</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

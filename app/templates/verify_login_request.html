@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Verify Login - X{% endblock %}
+
+{% block content %}
+<div class="min-vh-100 d-flex align-items-center" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <h1 style="font-size: 3rem; font-weight: 800; color: #000;">𝕏</h1>
+                        </div>
+                        
+                        <h2 class="text-center mb-2" style="font-size: 1.5rem; font-weight: 800;">Verify Your Login</h2>
+                        <p class="text-center text-muted mb-4">
+                            We detected a new login from a new device. Please check your email for a verification link.
+                        </p>
+                        
+                        <div class="alert alert-info">
+                            <strong>Check your email!</strong> We've sent a verification link to your registered email address. Click the link to confirm your login.
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <p class="text-muted mb-3">Didn't receive the email?</p>
+                            <a href="{{ url_for('auth.login') }}" class="text-decoration-none" style="color: #1d9bf0;">
+                                Try again
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
