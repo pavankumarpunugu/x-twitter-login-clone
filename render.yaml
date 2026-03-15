@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: x-twitter-login-clone
+    env: python
+    plan: free
+    pythonVersion: 3.11.8
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn run:app
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        sync: false
